@@ -1,26 +1,26 @@
 class SquareBoard:
+
     def __init__(self, board_size):
         self.size = board_size
-        self.board = [
-            ['  ' for i in range (board_size)] for j in range(board_size)
-        ]
-    
-    def print(board:list) -> None:
+        self.board = [['  ' for i in range(board_size)]
+                      for j in range(board_size)]
+
+    def print(board: list) -> None:
         """
         Visualise the board to the terminal
         """
         for y in board:
-            row = '|'  
+            row = '|'
             for x in y:
                 row += f' {x} |'
-    
+
             print(row.rstrip())
 
 
 class BoardPiece:
+
     def __init__(self, name, x_pos: str, y_pos: str, board):
-        """
-        A piece on the board
+        """A piece on the game board
         It is placed in the co-ordinate (x, y)
         where index starts at 0
 
@@ -35,8 +35,7 @@ class BoardPiece:
         self.y_pos = y_pos
 
     def update_pos(self, x_new, y_new) -> bool:
-        """
-        Move the piece on the board
+        """Move the piece on the game board
 
         param:
             x_new: str, the new vertical position
@@ -53,3 +52,11 @@ class BoardPiece:
         except Exception as error:
             print(f'Ur oh. Can\'t move the piece.\nThis occurs: {error}')
             return False
+
+
+    def get_pos(self) -> tuple:
+        """Return the piece's location on game board
+        In format of (x, y)
+        or (vertical, horizontal)
+        """
+        return (self.x_pos, self.y_pos)
