@@ -6,10 +6,10 @@ class Epsilon(BoardPiece):
 
     def __init__(self, board):
         """A cute cat. She's the main star of our game
-        Starting the game, her entrance to the board is random
+        When game starts, her entrance to the board is random
 
         param:
-            board: Board, the game board Epsilon is placed on
+            board: Board, the game board where Epsilon is placed on
         """
         x_Eps, y_Eps = [
             randint(
@@ -41,11 +41,16 @@ class Epsilon(BoardPiece):
 if __name__ == '__main__':
     board_test = SquareBoard(5)
 
-    for _test in range(10000):
+    # [case]: instantiate Epsilon
+    for _test in range(10):
         try:
             # print(f'Case #{_test}:')
             eps_test = Epsilon(board_test)
-    
+            
+            # Epsilon has an attribute with name 'board'
+            assert hasattr(eps_test, 'board'), 'Epsilon is not on any board'
+            # the 'board' is an instance of BoardPiece class
+            assert isinstance(getattr(eps_test, 'board'), SquareBoard), 'board is not a SquareBoard'
             assert all(isinstance(_elem, int) for _elem in eps_test.get_pos())
             assert all(_elem < board_test.size for _elem in eps_test.get_pos())
     
@@ -53,5 +58,5 @@ if __name__ == '__main__':
             # print(eps_test.get_pos())
             # print()
         except AssertionError as assert_error:
-            print(f'Failure at #{_test}.\nThis occurs: {assert_error}')
+            print(f'Failure at #{_test}.\nThis occurs: {str(assert_error)}')
             print(eps_test.get_pos())
