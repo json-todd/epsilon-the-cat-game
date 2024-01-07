@@ -1,0 +1,7 @@
+.breakpoints
+.replit
+replit.nix
+.upm
+poetry.lock
+pyproject.toml
+venv
