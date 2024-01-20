@@ -11,11 +11,8 @@ class Epsilon(BoardPiece):
         param:
             board: Board, the game board where Epsilon is placed on
         """
-        x_Eps, y_Eps = [
-            randint(
-                0, board.size - 1) \
-            for i in range(2)
-        ]
+        x_Eps =  randint(0, board.size - 1)
+        y_Eps = randint(0, board.size - 1)
         super().__init__(str(self), x_Eps, y_Eps, board)
 
     def move_up(self):
@@ -34,6 +31,18 @@ class Epsilon(BoardPiece):
         if self.x_Eps == self.board.size - 1: return
         self.x_Eps += 1
 
+    def has_eaten(self, food):
+        """Has Epsilon eaten food yet?
+        Epsilon has eaten when she is at the location of the food
+
+        param:
+            food: Food, the food whose location is checked if Epsilon has reached there
+
+        return:
+            True if Epsilon has reached food's location, False otherwise
+        """
+        return self.get_pos() == food.get_pos()
+    
     def __str__(self):
         return '🐈'
 
