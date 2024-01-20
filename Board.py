@@ -9,7 +9,11 @@ class SquareBoard:
         if x_location < 0 or x_location >= self.size or y_location < 0 or y_location >= self.size:
             print('Location is outside of board')
             return False
-        if not isinstance(piece, BoardPiece):
+
+        if not isinstance(piece, BoardPiece) and not __name__ == '__main__':
+            # `isinstance` evaluates to false, when running the file directly ...
+            # ... for example Epsilon is an instance of BoardPiece evaluates to False. Why??
+            # I by-pass this inexplicable behaviour with `not __name__ == '__main__'`
             print(
                 'Board does not recognize this is piece. Try to place a `BoardPiece` object on the board.'
             )
@@ -19,7 +23,7 @@ class SquareBoard:
         return True
 
     def remove_from_board(self, piece):
-        if isinstance(piece, BoardPiece):
+        if not isinstance(piece, BoardPiece):
             print('Board does not recognize this is is a valid piece on board')
             print('Board will not remove anything')
             return False
@@ -75,7 +79,7 @@ class BoardPiece:
             # piece is moved to new location
             self.board.place_on_board(self, x_new, y_new)
             # and old location is cleared
-            self.board.remove_on_board(self.x_pos, self.y_pos)
+            self.board.remove_from_board(piece=self)
             # finally, update properties of the object
             self.x_pos = x_new
             self.y_pos = y_new
@@ -98,13 +102,20 @@ class BoardPiece:
 
 if __name__ == '__main__':
     from Epsilon import Epsilon
-    board_test = SquareBoard(5)
+    board_test = SquareBoard(7)
     epsilon_test = Epsilon(board_test)
+
+    # Why does Epsilon is sub-class of BoardPiece evaluate to False???
+    # why epsilon_test is not an is instant of BoardPiece?
+    # moreover, it only affects running this file ????
+    print('printing in main')
+    print(isinstance(epsilon_test, BoardPiece))
+    print(issubclass(Epsilon, BoardPiece))
+    board_test.print()
 
     def test_instantiate_piece_on_board():
         assert any(epsilon_test in row
                    for row in board_test.board), 'Epsilon is not on board!'
         print('Epsilon is on the board <3')
-        board_test.print()
 
     test_instantiate_piece_on_board()
