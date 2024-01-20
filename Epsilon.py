@@ -1,6 +1,6 @@
 from random import randint
 from Board import SquareBoard, BoardPiece
-
+from test_util import run_a_test_many_times
 
 class Epsilon(BoardPiece):
 
@@ -17,7 +17,9 @@ class Epsilon(BoardPiece):
 
     def move_up(self):
         if self.y_pos == 0: return
-        self.y_pos -= 1
+        
+        new_y_pos = self.y_pos - 1
+        self.update_pos( self.x_pos, new_y_pos )
 
     def move_down(self):
         if self.x_Eps == 0: return
@@ -51,11 +53,15 @@ if __name__ == '__main__':
     board_test = SquareBoard(5)
 
     # [case]: instantiate Epsilon
-    for _test in range(10):
+    def test_instatiate():
+        # Arrange
+        board_test = SquareBoard(5)
+        
         try:
-            # print(f'Case #{_test}:')
+            # Act
             eps_test = Epsilon(board_test)
             
+            # Assert      
             # Epsilon has an attribute with name 'board'
             assert hasattr(eps_test, 'board'), 'Epsilon is not on any board'
             # the 'board' is an instance of BoardPiece class
@@ -67,5 +73,39 @@ if __name__ == '__main__':
             # print(eps_test.get_pos())
             # print()
         except AssertionError as assert_error:
-            print(f'Failure at #{_test}.\nThis occurs: {str(assert_error)}')
+            print(f'Failure. This occurs: {str(assert_error)}')
             print(eps_test.get_pos())
+
+
+    def test_move_up(verbose=True) -> bool:
+        # Arrange
+        board_test = SquareBoard(5)
+        eps_test = Epsilon(board_test)
+
+        x_start, y_start = eps_test.get_pos()
+        if verbose:
+            print('Place Epsilon on board')
+            board_test.print()
+
+        try: 
+            # Act
+            if verbose: print('\nMoving Epsilon up')
+            eps_test.move_up()
+            x_final, y_final = eps_test.get_pos()
+            
+            if verbose: board_test.print()
+
+            # Assert
+            assert x_start == x_final, 'Epsilon moves to wrong column'
+            if y_start == 0:
+                assert y_start == y_final, 'Epsilon moves to somewhere else not intended'
+            else:
+                assert y_start - 1 == y_final, 'Epsilon did not move up as intended'
+            return True
+        except AssertionError as err:
+            print(f'Test failed: {str(err)}')
+            print((x_start, y_start), (x_final, y_final))
+            return False
+
+    run_a_test_many_times(test_move_up, 100, test_args={"verbose": False})
+        
