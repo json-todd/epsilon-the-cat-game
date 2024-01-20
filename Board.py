@@ -5,11 +5,34 @@ class SquareBoard:
         self.board = [['  ' for i in range(board_size)]
                       for j in range(board_size)]
 
-    def print(board: list) -> None:
+    def place_on_board(self, piece, x_location, y_location):
+        if x_location < 0 or x_location >= self.size or y_location < 0 or y_location >= self.size:
+            print('Location is outside of board')
+            return False
+        if not isinstance(piece, BoardPiece):
+            print(
+                'Board does not recognize this is piece. Try to place a `BoardPiece` object on the board.'
+            )
+            return False
+
+        self.board[y_location][x_location] = piece
+        return True
+
+    def remove_from_board(self, piece):
+        if isinstance(piece, BoardPiece):
+            print('Board does not recognize this is is a valid piece on board')
+            print('Board will not remove anything')
+            return False
+
+        (x_location, y_location) = piece.get_pos()
+        self.board[y_location][x_location] = '  '
+        return True
+
+    def print(self) -> None:
         """
         Visualise the board to the terminal
         """
-        for y in board:
+        for y in self.board:
             row = '|'
             for x in y:
                 row += f' {x} |'
@@ -19,21 +42,25 @@ class SquareBoard:
 
 class BoardPiece:
 
-    def __init__(self, name: str, x_pos: str, y_pos: str, board):
+    def __init__(self, name: str, x_pos: int, y_pos: int, board: SquareBoard):
         """A piece on the game board
         It is placed in the co-ordinate (x, y)
         where index starts at 0
 
         param:
             name: str, how the piece is visualized to the board. This is a string representation of the piece
-            x_pos: str, the piece's horizontal position 
-            y_pos: str, the piece's vertical position
-            board: Board, game board where the piece is placed on
+            x_pos: int, the piece's horizontal position 
+            y_pos: int, the piece's vertical position
+            board: SquareBoard, game board where the piece is placed on
         """
         self.board = board
         self.name = name
         self.x_pos = x_pos
         self.y_pos = y_pos
+
+        self.board.place_on_board(piece=self,
+                                  x_location=self.x_pos,
+                                  y_location=self.y_pos)
 
     def update_pos(self, x_new, y_new) -> bool:
         """Move the piece on the game board
@@ -46,9 +73,13 @@ class BoardPiece:
         """
         try:
             # piece is moved to new location
-            self.board[y_new][x_new] = self.name
+            self.board.place_on_board(self, x_new, y_new)
             # and old location is cleared
-            self.board[self.y_pos][self.x_pos] = '  '
+            self.board.remove_on_board(self.x_pos, self.y_pos)
+            # finally, update properties of the object
+            self.x_pos = x_new
+            self.y_pos = y_new
+
             return True
         except Exception as error:
             print(f'Ur oh. Can\'t move the piece.\nThis occurs: {error}')
@@ -63,3 +94,17 @@ class BoardPiece:
 
     def __str__(self):
         return self.name
+
+
+if __name__ == '__main__':
+    from Epsilon import Epsilon
+    board_test = SquareBoard(5)
+    epsilon_test = Epsilon(board_test)
+
+    def test_instantiate_piece_on_board():
+        assert any(epsilon_test in row
+                   for row in board_test.board), 'Epsilon is not on board!'
+        print('Epsilon is on the board <3')
+        board_test.print()
+
+    test_instantiate_piece_on_board()
