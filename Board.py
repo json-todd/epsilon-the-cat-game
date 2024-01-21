@@ -102,12 +102,12 @@ class BoardPiece:
         self.update_pos( self.x_pos, self.y_pos - 1 )
 
     def move_left(self):
-        if self.x_Eps == 0: return
-        self.update_pos( self.x_Eps - 1, self.y_pos )
+        if self.x_pos == 0: return
+        self.update_pos( self.x_pos - 1, self.y_pos )
 
     def move_down(self):
         if self.y_pos == self.board.size - 1: return
-        self.update_post( self.x_Eps, self.y_pos + 1)
+        self.update_pos( self.x_pos, self.y_pos + 1)
 
     def move_right(self):
         if self.x_pos == self.board.size - 1: return
