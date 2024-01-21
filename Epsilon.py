@@ -15,24 +15,6 @@ class Epsilon(BoardPiece):
         y_Eps = randint(0, board.size - 1)
         super().__init__(str(self), x_Eps, y_Eps, board)
 
-    def move_up(self):
-        if self.y_pos == 0: return
-        
-        new_y_pos = self.y_pos - 1
-        self.update_pos( self.x_pos, new_y_pos )
-
-    def move_down(self):
-        if self.x_Eps == 0: return
-        self.x_Eps -= 1
-
-    def move_left(self):
-        if self.y_pos == self.board.size - 1: return
-        self.y_pos += 1
-
-    def move_right(self):
-        if self.x_Eps == self.board.size - 1: return
-        self.x_Eps += 1
-
     def has_eaten(self, food):
         """Has Epsilon eaten food yet?
         Epsilon has eaten when she is at the location of the food
