@@ -89,5 +89,34 @@ if __name__ == '__main__':
             print((x_start, y_start), (x_final, y_final))
             return False
 
-    run_a_test_many_times(test_move_up, 100, test_args={"verbose": False})
+
+    def test_move_in_circle(verbose=True) -> bool:
+        # Arrange
+        board_test = SquareBoard(5)
+        eps_test = Epsilon(board_test)
+        # Epsilon is positioned manually in the center
+        x_start, y_start = (2, 2)
+        eps_test.update_pos(x_start, y_start)
+
+        try:
+            # Act
+            eps_test.move_up()
+            eps_test.move_left()
+            eps_test.move_down()
+            eps_test.move_right()
+            x_final, y_final = eps_test.get_pos()
+    
+            # Assert
+            assert (x_start, y_start) == (x_final, y_final), 'Epsilon did not move back to original direction'
+            return True
+        except AssertionError as err:
+            if verbose:
+                print(f'Test failed: {str(err)}')
+                print((x_start, y_start), (x_final, y_final))
+            return False
+        
+        
+        
+        
+    run_a_test_many_times(test_move_in_circle, 10, test_args={"verbose": True}, )
         
