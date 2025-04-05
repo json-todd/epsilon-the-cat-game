@@ -23,7 +23,7 @@ def main():
     def user_control():
         user_command = ''
         while user_command != QUIT_GAME_SIGNAL:
-            print('\nMove Epsilone with [W] [A] [S] [D]:')
+            print('\nMove Epsilon with WASD or arrow:')
             user_command = getkey()
 
             if user_command not in USER_ALLOWED_INPUT:
