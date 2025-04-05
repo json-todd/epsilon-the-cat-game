@@ -7,11 +7,15 @@ from Food import Food
 # 7x7 board
 BOARD_SIZE = 10
 USER_ALLOWED_INPUT = {'w', 'a', 's', 'd', keys.UP, keys.LEFT, keys.DOWN, keys.RIGHT}
+# 7x7 board for now
+# TODO: suport user to decide the size. But the render to terminal may be horrible and broken, though
+BOARD_SIZE = 7
 QUIT_GAME_SIGNAL = 'q'
 EXIT_CODE_WIN = 0
 EXIT_CODE_QUIT = 1
 
 # test case Eps & food in the same row
+# test case Eps & food have same starting location
 # TODO: write more test cases with pytest on presentation logic
 
 def main():

@@ -96,6 +96,23 @@ class BoardPiece:
         """
         return (self.x_pos, self.y_pos)
 
+
+    def move_up(self):
+        if self.y_pos == 0: return
+        self.update_pos( self.x_pos, self.y_pos - 1 )
+
+    def move_left(self):
+        if self.x_pos == 0: return
+        self.update_pos( self.x_pos - 1, self.y_pos )
+
+    def move_down(self):
+        if self.y_pos == self.board.size - 1: return
+        self.update_pos( self.x_pos, self.y_pos + 1)
+
+    def move_right(self):
+        if self.x_pos == self.board.size - 1: return
+        self.update_pos( self.x_pos + 1, self.y_pos )
+    
     def __str__(self):
         return self.name
 
